@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Starter Single-File HTML — Your Page</title>
+  <meta name="description" content="A clean single-file HTML template with responsive layout, small JS interactions, and accessible markup." />
+  <style>
+    /* Simple reset */
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#06b6d4;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.4;color:#e6eef6;background:linear-gradient(180deg,#071124 0%,#07172a 100%)}
+    .container{max-width:1000px;margin:40px auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:inline-grid;place-items:center;color:#042028;font-weight:700}
+    nav a{color:var(--muted);text-decoration:none;margin-left:14px}
+    .hero{display:grid;grid-template-columns:1fr 340px;gap:28px;margin-top:28px}
+    .card{background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    h1{margin:0 0 8px 0;font-size:28px}
+    p.lead{color:var(--muted);margin:0 0 14px}
+    ul.features{padding-left:18px;margin:12px 0;color:var(--muted)}
+    button{background:var(--accent);border:0;padding:10px 14px;border-radius:8px;color:#042028;font-weight:600;cursor:pointer}
+    .small{font-size:13px;color:var(--muted)}
+    .right-cta{display:flex;flex-direction:column;gap:12px}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    footer{margin-top:32px;color:var(--muted);font-size:13px}
+    /* Responsive */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr;}
+      .right-cta{order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">LP</div>
+        <div>
+          <div style="font-weight:700">Local Page</div>
+          <div class="small">Single-file starter</div>
+        </div>
+      </div>
+      <nav aria-label="main navigation">
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+        <a href="#" id="themeToggle">Toggle theme</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <section class="card">
+        <h1>Fast single-file HTML starter</h1>
+        <p class="lead">A compact, accessible, and responsive HTML template you can open locally or drop into a project. Includes a small form and JS interactions — no build tools required.</p>
+
+        <h3 id="features">What you'll find</h3>
+        <ul class="features">
+          <li>Responsive layout with accessible markup</li>
+          <li>Interactive theme toggle and form validation</li>
+          <li>Self-contained CSS & JS — one file</li>
+        </ul>
+
+        <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+          <button id="demoBtn">Click me</button>
+          <div class="small" id="demoMsg">Ready.</div>
+        </div>
+      </section>
+
+      <aside class="card right-cta" aria-labelledby="contact">
+        <div>
+          <strong id="contact">Contact</strong>
+          <p class="small" style="margin:6px 0 10px">Send a quick message (demo only — no network requests).</p>
+        </div>
+
+        <label class="small">Your name
+          <input type="text" id="name" placeholder="e.g. Priya" />
+        </label>
+
+        <label class="small">Message
+          <textarea id="message" rows="4" placeholder="Say hi"></textarea>
+        </label>
+
+        <div style="display:flex;gap:8px">
+          <button id="sendBtn">Send</button>
+          <button id="clearBtn" style="background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)">Clear</button>
+        </div>
+
+        <div class="small" style="margin-top:auto">Tip: open this file in your browser (double-click) to test locally.</div>
+      </aside>
+    </main>
+
+    <footer class="card" style="margin-top:18px">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <strong>Local Page</strong>
+          <div class="small">Made for quick demos & teaching.</div>
+        </div>
+        <div class="small">© <span id="year"></span> — Built with ❤️</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Small JS interactions
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const demoBtn = document.getElementById('demoBtn');
+    const demoMsg = document.getElementById('demoMsg');
+    demoBtn.addEventListener('click', ()=>{
+      demoMsg.textContent = 'Nice click! — ' + new Date().toLocaleTimeString();
+      demoMsg.style.color = 'var(--accent)';
+    });
+
+    // Simple form validation (client-side only)
+    const sendBtn = document.getElementById('sendBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    sendBtn.addEventListener('click', ()=>{
+      const name = document.getElementById('name').value.trim();
+      const msg = document.getElementById('message').value.trim();
+      if(!name || !msg){
+        alert('Please fill name and message.');
+        return;
+      }
+      // Demo: show a temporary success state
+      sendBtn.textContent = 'Sent ✓';
+      sendBtn.disabled = true;
+      setTimeout(()=>{ sendBtn.textContent = 'Send'; sendBtn.disabled = false; }, 1400);
+      document.getElementById('name').value='';
+      document.getElementById('message').value='';
+      demoMsg.textContent = 'Message queued — thanks, ' + name + '!';
+    });
+    clearBtn.addEventListener('click', ()=>{ document.getElementById('name').value=''; document.getElementById('message').value=''; });
+
+    // Theme toggle (light/dark) — simple approach
+    const themeToggle = document.getElementById('themeToggle');
+    let light = false;
+    themeToggle.addEventListener('click', (e)=>{
+      e.preventDefault();
+      light = !light;
+      if(light){
+        document.documentElement.style.setProperty('--bg','#f8fafc');
+        document.documentElement.style.setProperty('--card','#ffffff');
+        document.documentElement.style.setProperty('--muted','#475569');
+        document.documentElement.style.setProperty('--accent','#06b6d4');
+        document.documentElement.style.setProperty('--glass','rgba(2,6,23,0.04)');
+        document.body.style.background = 'linear-gradient(180deg,#f8fafc 0%,#e6eef6 100%)';
+      } else {
+        document.documentElement.style.removeProperty('--bg');
+        document.documentElement.style.removeProperty('--card');
+        document.documentElement.style.removeProperty('--muted');
+        document.documentElement.style.removeProperty('--accent');
+        document.documentElement.style.removeProperty('--glass');
+        document.body.style.background = 'linear-gradient(180deg,#071124 0%,#07172a 100%)';
+      }
+    });
+  </script>
+</body>
+</html>
